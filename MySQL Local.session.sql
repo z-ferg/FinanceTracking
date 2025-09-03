@@ -32,3 +32,17 @@ FROM accounts;
 SELECT *
 FROM categories;
 
+INSERT INTO Personal_Finance_DB.income_categories(name)
+VALUES
+("Paycheck"),
+("Allowance"),
+("Other");
+
+INSERT INTO Personal_Finance_DB.expense_categories(name)
+VALUES
+("Rent"),
+("Utilities"),
+("Groceries"),
+("Transportation"),
+("Entertainment"),
+("Personal");
