@@ -1,7 +1,11 @@
-CREATE TABLE categories (
+CREATE TABLE expense_categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    type ENUM('Income', 'Expense') NOT NULL
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE income_categories (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE accounts (
@@ -19,6 +23,12 @@ CREATE TABLE transactions (
     category_id INT NOT NULL,
     account_id INT NOT NULL,
     recur_id INT DEFAULT 0,
-    FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
 );
+
+SELECT *
+FROM accounts;
+
+SELECT *
+FROM categories;
+
