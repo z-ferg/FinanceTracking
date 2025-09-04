@@ -1,5 +1,6 @@
 import mysql.connector, os
 import sensitive
+from datetime import datetime
 
 def clear_and_print(header):
     if os.name == 'nt':
@@ -57,12 +58,37 @@ def add_transaction():
         account_id = int(input("Account: "))
     
     # Now lets get the final information required
-    while(True):
-        clear_and_print("-----Additional Information-----")
-        date = input("Date: ")
-        amt = input("Amount: ")
-        desc = input("Description: ")
-        break
+    # TODO - set up validity check for the date input
     
-
+    clear_and_print("-----Additional Information-----")
+    date_str = input("MM-DD-YYYY: ")
+    date = datetime.strptime(date_str, "%m-%d-%Y").date()
+    
+    while(True):
+        try:
+            amt = float(input("Amount: "))
+            desc = input("Description: ")
+            break
+        except ValueError:
+            clear_and_print("-----Additional Information-----")
+            print(f'MM-DD-YYYY: {date_str}')
+            
+    """
+    transaction table layout:
+        date -> DATE
+        amount -> DECIMAL
+        description -> VARCHAR
+        category_id -> INT
+        account_id -> INT
+        recur_id -> INT
+    """
+    cursor.execute('''INSERT INTO transactions (date, amount, description, category_id, account_id) VALUES
+                    (%s, %s, %s, %s, %s);''', (date, amt, desc, category_id, account_id))
+    
+    my_db.commit()
+    
+    cursor.close()
+    my_db.close()
+    
+    
 add_transaction()

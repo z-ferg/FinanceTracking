@@ -1,3 +1,4 @@
+-- Instantiate All Tables --
 CREATE TABLE expense_categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL
@@ -26,11 +27,21 @@ CREATE TABLE transactions (
     FOREIGN KEY (account_id) REFERENCES accounts(id)
 );
 
+-- View All Tables --
+
 SELECT *
 FROM accounts;
 
 SELECT *
-FROM categories;
+FROM expense_categories;
+
+SELECT *
+FROM income_categories;
+
+SELECT *
+FROM transactions;
+
+-- Insert Starting Values --
 
 INSERT INTO Personal_Finance_DB.income_categories(name)
 VALUES
@@ -46,3 +57,7 @@ VALUES
 ("Transportation"),
 ("Entertainment"),
 ("Personal");
+
+-- Deletions for Testing Purposes --
+
+DELETE FROM transactions WHERE id != 0;
