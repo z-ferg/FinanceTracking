@@ -21,6 +21,7 @@ CREATE TABLE transactions (
     date DATE NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     description VARCHAR(255),
+    expense BOOLEAN,
     category_id INT NOT NULL,
     account_id INT NOT NULL,
     recur_id INT DEFAULT 0,
@@ -61,3 +62,5 @@ VALUES
 -- Deletions for Testing Purposes --
 
 DELETE FROM transactions WHERE id != 0;
+
+DROP TABLE transactions;

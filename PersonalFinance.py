@@ -9,6 +9,17 @@ def clear_and_print(header):
         os.system('clear')
     print(header)
 
+
+def open_sql():
+    my_db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password=sensitive.password,
+        database="Personal_Finance_DB"
+    )
+    return (my_db.cursor(), my_db)
+
+
 def add_transaction():
     # First get the type of transaction, is it expense or income
     trans_type = -1
@@ -18,17 +29,14 @@ def add_transaction():
         print("2) Income")
         trans_type = int(input("Type: "))
     
-    # Now get the categories table for that specific type
-    my_db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password=sensitive.password,
-        database="Personal_Finance_DB"
-    )
+    cursor, my_db = open_sql()
     
-    cursor = my_db.cursor()
-    if trans_type == 1:   cat_table = cursor.execute("SELECT * FROM expense_categories")
-    elif trans_type == 2: cat_table = cursor.execute("SELECT * FROM income_categories")
+    if trans_type == 1:   
+        cat_table = cursor.execute("SELECT * FROM expense_categories")
+        expense = True
+    elif trans_type == 2: 
+        cat_table = cursor.execute("SELECT * FROM income_categories")
+        expense = False
     
     all_rows = cursor.fetchall()
     max_val = len(all_rows)
@@ -40,7 +48,7 @@ def add_transaction():
         for id, type in all_rows:
             print(f'{id}) {type}')
         try:
-            category_id = int(input("Source: "))
+            category_id = int(input("Type: "))
         except ValueError:
             pass
     
@@ -82,8 +90,8 @@ def add_transaction():
         account_id -> INT
         recur_id -> INT
     """
-    cursor.execute('''INSERT INTO transactions (date, amount, description, category_id, account_id) VALUES
-                    (%s, %s, %s, %s, %s);''', (date, amt, desc, category_id, account_id))
+    cursor.execute('''INSERT INTO transactions (date, amount, description, expense, category_id, account_id) VALUES
+                        (%s, %s, %s, %s, %s, %s);''', (date, amt, desc, expense, category_id, account_id))
     
     my_db.commit()
     
@@ -91,4 +99,57 @@ def add_transaction():
     my_db.close()
     
     
-add_transaction()
+def check_balances():
+    cursor, my_db = open_sql()
+    cursor.execute("SELECT * FROM accounts")
+    all_accounts = cursor.fetchall()
+    
+    selected_account = [0]
+    while selected_account[0] not in range(1, len(all_accounts) + 1):
+        clear_and_print("-----Account to Check-----")
+        for account in all_accounts:
+            print(f'{account[0]}) {account[1]}')
+        try:
+            selected_account = all_accounts[int(input("Account: ")) - 1]
+        except (ValueError, IndexError):
+            pass
+    
+    clear_and_print(f'-----{selected_account[1]}-----')
+    print(f'Type of Account: {selected_account[2]}')
+    print(f'Account Balance: {selected_account[3]}\n')
+    
+    cursor.execute(f"""SELECT * FROM transactions 
+                        WHERE account_id = {selected_account[0]}
+                        ORDER BY date DESC
+                        LIMIT 5""")
+    recent_transactions = cursor.fetchall()
+    
+    if len(recent_transactions) > 0: print(f'-----Recent Transactions-----')
+    
+    for i in range(0, min(len(recent_transactions), 5)):
+        #transaction -> [id, date, amount, description, expense, cat_id, act_id, recur_id]
+        t = recent_transactions[i]
+        print(f'date: {t[1]}\namount: ${t[2]}\ntype: {"Expense" if t[4] else "Income"}')
+        
+        if t[4]:
+            cursor.execute("""SELECT * FROM expense_categories""")
+            expenses = cursor.fetchall()
+            print(f'category: {expenses[t[5]][1]}\n')
+        else:
+            cursor.execute("""SELECT * FROM income_categories""")
+            incomes = cursor.fetchall()
+            print(f'category: {incomes[t[5]][1]}\n')
+
+
+def program_primary():
+    clear_and_print("-----Personal Finance Tracker-----")
+    action = 0
+    while action not in (1, 2):
+        clear_and_print("-----Personal Finance Tracker-----")
+        print("1) Add a Transaction")
+        print("2) Check Account Balances")
+        action = int(input("Option: "))
+    if action == 1: add_transaction()
+    elif action == 2: check_balances()
+
+program_primary()
