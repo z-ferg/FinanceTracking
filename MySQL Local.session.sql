@@ -21,7 +21,7 @@ CREATE TABLE transactions (
     date DATE NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     description VARCHAR(255),
-    expense BOOLEAN,
+    expense BOOLEAN NOT NULL,
     category_id INT NOT NULL,
     account_id INT NOT NULL,
     recur_id INT DEFAULT 0,

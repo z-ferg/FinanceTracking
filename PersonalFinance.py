@@ -1,5 +1,6 @@
 import mysql.connector, os
 import sensitive
+import supabase_utils
 from datetime import datetime
 
 def clear_and_print(header):
@@ -150,6 +151,6 @@ def program_primary():
         print("2) Check Account Balances")
         action = int(input("Option: "))
     if action == 1: add_transaction()
-    elif action == 2: check_balances()
+    elif action == 2: check_balances_2()
 
 program_primary()
