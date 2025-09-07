@@ -5,7 +5,7 @@ PROJ_URL = "https://ldqjmpsccofsdmmxdgyf.supabase.co"
 
 def view_table(table, view_limit=25, filter=None):
     supabase = create_client(PROJ_URL, sensitive.service_role_key)
-
+    
     if not filter:
         return supabase.table(table).select("*").limit(view_limit).execute()
     else:
