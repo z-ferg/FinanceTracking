@@ -1,11 +1,12 @@
-import sensitive
+
 import time
+import tkinter
 from datetime import datetime
 from program_utils import *
 from supabase_utils import *
 
 
-def add_transaction():
+def add_transaction(frame):
     # Anonymous Function to determine Expense vs Income
     def get_transaction_type():
         options = [
@@ -84,5 +85,5 @@ def program_primary():
         case _:
             pass
 
-
-program_primary()
+if __name__=="__main__":
+    program_primary()
