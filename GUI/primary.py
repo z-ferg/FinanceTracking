@@ -20,10 +20,12 @@ class MyWidget(QtWidgets.QWidget):
         self.nav_layout.addStretch()
         
         nav_widget = QtWidgets.QWidget()
+        nav_widget.setStyleSheet("background-color: #7baaba;")
         nav_widget.setLayout(self.nav_layout)
         nav_widget.setFixedWidth(200)
         
         self.stack = QtWidgets.QStackedWidget()
+        self.stack.setStyleSheet("background-color: #8d9091;")
         self.add_transaction_page = AddTransactionWidget()
         self.check_balance_page = CheckBalanceWidget()
         self.stack.addWidget(self.add_transaction_page)
