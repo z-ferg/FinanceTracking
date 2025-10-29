@@ -1,4 +1,4 @@
-import sensitive
+#import sensitive
 from supabase import create_client
 
 PROJ_URL = "https://ldqjmpsccofsdmmxdgyf.supabase.co"
