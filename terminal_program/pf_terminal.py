@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
-from program_utils import *
-from supabase_utils import *
+from Utils.program_utils import *
+from Utils.supabase_utils import *
 
 
 def add_transaction():

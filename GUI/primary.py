@@ -1,9 +1,9 @@
 import sys
-import time
 from datetime import datetime
-from PySide6 import QtCore, QtWidgets, QtGui
-from program_utils import *
-from supabase_utils import *
+from PySide6 import QtCore, QtWidgets
+
+from add_transaction import AddTransactionWidget
+from check_balance import CheckBalanceWidget
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self):
@@ -24,8 +24,8 @@ class MyWidget(QtWidgets.QWidget):
         nav_widget.setFixedWidth(200)
         
         self.stack = QtWidgets.QStackedWidget()
-        self.add_transaction_page = None #AddTransactionWidget()
-        self.check_balance_page = None #CheckBalanceWidget()
+        self.add_transaction_page = AddTransactionWidget()
+        self.check_balance_page = CheckBalanceWidget()
         self.stack.addWidget(self.add_transaction_page)
         self.stack.addWidget(self.check_balance_page)
         

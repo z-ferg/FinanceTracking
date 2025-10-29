@@ -1,6 +1,6 @@
 import tkinter as tk
 from functools import partial
-from pf_tkinter import *
+from terminal_program.pf_tkinter import *
 
 
 def clear_frame(frame):
