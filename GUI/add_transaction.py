@@ -2,6 +2,7 @@ import sys, os
 from datetime import datetime
 from PySide6 import QtCore, QtWidgets
 
+# Retrieve the Utility Files
 cur_dir = os.path.dirname(os.path.realpath(__file__))
 par_dir = os.path.dirname(cur_dir)
 sys.path.append(par_dir)
@@ -9,6 +10,7 @@ sys.path.append(par_dir)
 from Utils.program_utils import *
 from Utils.supabase_utils import *
 
+# Fetch the API Key from environment variables
 from dotenv import load_dotenv, dotenv_values
 dotenv_path = os.path.join(par_dir, "sensitive.env")
 load_dotenv(dotenv_path)
@@ -18,16 +20,20 @@ class AddTransactionWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        # Combo Box for determining Expense/Income (Money Inflow vs Outflow)
         self.type_combo = QtWidgets.QComboBox()
         self.type_combo.addItems(["Expense", "Income"])
 
+        # Date for easily getting date of the transaction
         self.date_edit = QtWidgets.QDateEdit(QtCore.QDate.currentDate())
         self.date_edit.setCalendarPopup(True)
 
+        # Spin Box for determining amount in transaction (1,000,000+ in would be nice but unrealistic)
         self.amount_edit = QtWidgets.QDoubleSpinBox()
         self.amount_edit.setMaximum(1_000_000)
         self.amount_edit.setPrefix("$")
 
+        # Text box for describing nature of transaction
         self.desc_edit = QtWidgets.QLineEdit()
 
         self.category_combo = QtWidgets.QComboBox()

@@ -2,6 +2,8 @@
 
 The start of my habit bettering applications, a personal finance tracker. This application will allow me to view all accounts in 1 consolidated place to enforce better spending and budgeting habits. I will be able to set financial goals and it will guide me on where to shift certain funds around to achieve them.
 
+I also want to note some of the design is tailored towards my own financial setup (i.e. cards and institutions used)
+
 =======================TASK LIST=======================
 IN PROGRESS
 - Clean UI
@@ -27,7 +29,3 @@ IN PROGRESS
         - This will be done once my personal research is complete
 
 - Export to executable with PyInstaller
-
-COMPLETED
-- Terminal based program
-- Light GUI framework
